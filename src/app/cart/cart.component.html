@@ -1,0 +1,96 @@
+<app-header></app-header>
+<section class="py-5">
+  <div class="container-fluid mt-5">
+    <div *ngIf="allProducts.length>0">
+      <h1>Cart Summary</h1>
+      <div class="row mt-4">
+        <div class="col-lg-8">
+          <table class="table shadow">
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Item Name</th>
+                <th>Image</th>
+                <th>Quantity</th>
+                <th>Price</th>
+                <th>...</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr key=id *ngFor="let product of allProducts;let i = index;">
+                <td>{{i+1}}</td>
+                <td>{{product.title.slice(0,20)}}...</td>
+                <td><img width="50px" height="50px" [src]="product.image" alt="product image" /></td>
+                <td>
+                  <div class="d-flex">
+                    <button (click)="decrementQuantity(product._id)" class='btn fw-bolder'>-</button>
+                    <input style="width: 3rem;" [value]="product.quantity" class='form-control' type="text" readOnly />
+                    <button (click)="incrementQuantity(product._id)" class='btn fw-bolder'>+</button>
+                  </div>
+                </td>
+                <td>$ {{product.totalPrice}}</td>
+                <td>
+                  <button (click)="removeItem(product._id)" class='btn'><i
+                      class='fa-solid fa-trash text-danger'></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="float-end">
+            <button (click)="emptyCart()" class='btn btn-secondary me-2'>EMPTY CART</button>
+            <a routerLink="" class="btn btn-primary">SHOP MORE</a>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="border rounded p-3 shadow">
+            <h4>Cart Total : <span class='text-danger'>$ {{cartTotalPrice}}</span></h4>
+            <!-- Coupons -->
+            <h6 *ngIf="!couponStatus" (click)="getCoupon()">Click here to view<span style="text-decoration: none;"
+                class="btn btn-link text-primary"> <i class="fa-solid fa-tag"></i>Offers</span></h6>
+            <div *ngIf="couponStatus" class="d-flex justify-content-evenly mt-3">
+              <!-- No Offers -->
+              <ng-container *ngIf="cartTotalPrice<50">
+                <div class="row mt-2">
+                  <div class="col-lg-6">
+                    <p class="text-primary">Sorry, No more offers for this purchase!!</p>
+                  </div>
+                  <div class="col-lg-6"> <button (click)="backToOffers()" class="btn btn-link text-danger">Back to
+                      Offers</button></div>
+                </div>
+              </ng-container>
+              <!-- 5% -->
+              <ng-container *ngIf="cartTotalPrice>=50 && cartTotalPrice<250 && !couponClickedStatus">
+                <img (click)="coupon5percent()" width="150px" height="100px"
+                  src="https://media.istockphoto.com/id/1337488539/vector/5-percent-off-sale-discount-tag-discount-offer-price-tag-10-percent-discount-promotion-flat.jpg?s=612x612&w=0&k=20&c=3q82cZJGkU2tm-oLcFseq5AxTfuQtNaWE5aA3QRNL5U=" alt="">
+              </ng-container>
+              <!-- 20% -->
+              <ng-container *ngIf="cartTotalPrice>=250 && cartTotalPrice<500 && !couponClickedStatus">
+                <img (click)="coupon20percent()" width="150px" height="100px" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTDt2YbpWx5XDgESsNoofPwp1jmwnRzz6uQlaOH_LCOkT04BdWK2uF7DJUTAYpYN-sOQL0&usqp=CAU"
+                  alt="">
+              </ng-container>
+              <!-- 50% -->
+              <ng-container *ngIf="cartTotalPrice>=500 && !couponClickedStatus">
+                <img (click)="coupon50percent()" width="150px" height="100px"
+                  src="https://w7.pngwing.com/pngs/737/726/png-transparent-discounts-and-allowances-coupon-retail-sales-online-shopping-discount-coupon-miscellaneous-text-trademark-thumbnail.png"
+                  alt="">
+              </ng-container>
+
+            </div>
+            <hr />
+            <div class="d-grid">
+              <a (click)="checkout()" routerLink="/checkout" class='btn btn-success'>Checkout</a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+    <div *ngIf="allProducts.length==0">
+      <div style="height: 80vh;" class="d-flex justify-content-center align-items-center flex-column">
+        <img width="400px" src="https://cdni.iconscout.com/illustration/premium/thumb/empty-cart-5521508-4610092.png"
+          alt="">
+        <h2 class="text-secondary">You Cart is Empty!!</h2>
+      </div>
+    </div>
+  </div>
+</section>

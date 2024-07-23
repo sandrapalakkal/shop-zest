@@ -1,0 +1,40 @@
+<app-header></app-header>
+<div style="height: 100vh;" class="d-flex flex-column align-items-center justify-content-center w-100 mt-5">
+    <div style="width:1000px;" class="row shadow rounded align-items-center p-5">
+        <div class="col-lg-6">
+            <form (ngSubmit)="login()" [formGroup]="loginForm" class="border rounded p-5">
+                <h4 class="text-secondary text-center">Welcome User</h4>
+                <div class="text-center mb-3">
+                </div>
+
+                <div class="form-floating mb-3">
+                    <input name="email" formControlName="email" type="email" class="form-control" id="floatingInput"
+                        placeholder="name@example.com" email required>
+                    <label for="floatingInput">Email Address</label>
+                </div>
+
+                <div *ngIf="loginForm.get('email')?.errors && loginForm.get('email')?.touched"
+                    class="fw-bolder text-danger mb-3">*Invalid Email</div>
+
+                <div class="form-floating  mb-3">
+                    <input name="password" formControlName="password" type="password" class="form-control"
+                        id="floatingPassword" placeholder="Password" pattern="[a-zA-Z0-9]*" required>
+                    <label for="floatingInput">Password</label>
+                </div>
+
+                <div *ngIf="loginForm.get('password')?.errors && loginForm.get('password')?.touched"
+                    class="fw-bolder text-danger mb-3">*Invalid Password</div>
+
+                <div class="d-grid">
+                    <button type="submit" class="btn btn-warning mb-3">Login</button>
+                </div>
+                <p>New User? Click Here to <a routerLink="/register">Register</a></p>
+            </form>
+        </div>
+        <div class="col-lg-6">
+            <img width="350px" style="height: 300px;"
+                src="https://www.pngall.com/wp-content/uploads/15/Login-PNG-Photos.png" class="img-fluid mt-5"
+                alt="Login Illustration">
+        </div>
+    </div>
+</div>
